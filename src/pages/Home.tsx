@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react"
+import { collection, onSnapshot } from "firebase/firestore"
 import { Link } from "react-router-dom"
 import {
   ArrowRight,
@@ -10,6 +12,7 @@ import {
   Zap,
 } from "lucide-react"
 import { useStore } from "../store/useStore"
+import { firestore } from "../lib/firebase"
 import { AdSlot } from "../components/PlatformChrome"
 import { AnimatedNumber, motion } from "../components/MotionPrimitives"
 
@@ -39,10 +42,37 @@ const features = [
 
 export default function Home() {
   const currentUser = useStore((s) => s.currentUser)
-  const users = useStore((s) => s.users)
-  const activePlayers = users.filter((user) => user.status === "ACTIVE").length
-  const distributedPoints = useStore((s) => s.totalPointsDistributed)
-  const storeItemCount = useStore((s) => s.storeItems.length)
+  const localUsers = useStore((s) => s.users)
+  const localPoints = useStore((s) => s.totalPointsDistributed)
+  const localStoreItems = useStore((s) => s.storeItems.length)
+  const [liveStats, setLiveStats] = useState({ users: 0, points: 0, items: 0 })
+
+  useEffect(() => {
+    const unsubscribeUsers = onSnapshot(
+      collection(firestore, "users"),
+      (snapshot) => {
+        const points = snapshot.docs.reduce((total, document) => {
+          const data = document.data()
+          return total + Number(data.points ?? data.jtorePoints ?? 0)
+        }, 0)
+        setLiveStats((current) => ({ ...current, users: snapshot.size, points }))
+      },
+      () => undefined,
+    )
+    const unsubscribeStore = onSnapshot(
+      collection(firestore, "store"),
+      (snapshot) => setLiveStats((current) => ({ ...current, items: snapshot.size })),
+      () => undefined,
+    )
+    return () => {
+      unsubscribeUsers()
+      unsubscribeStore()
+    }
+  }, [])
+
+  const activePlayers = liveStats.users || localUsers.filter((user) => user.status === "ACTIVE").length
+  const distributedPoints = liveStats.points || localPoints
+  const storeItemCount = liveStats.items || localStoreItems
   const stats = [
     { value: activePlayers.toLocaleString("en-US"), label: "Active Players" },
     { value: distributedPoints.toLocaleString("en-US"), label: "Distributed Points" },
