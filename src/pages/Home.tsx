@@ -181,6 +181,22 @@ export default function Home() {
         <AdSlot variant="infeed" />
       </div>
 
+      {/* ABOUT */}
+      <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
+        <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-8 sm:p-12">
+          <div className="max-w-3xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-orange-400">Hakkımızda</p>
+            <h2 className="mt-3 font-display text-3xl font-extrabold tracking-tight sm:text-4xl">JTORE, CS2 topluluğu için kuruldu.</h2>
+            <p className="mt-5 text-base leading-8 text-zinc-400">
+              JTORE; Counter-Strike 2 oyuncularını görevler, turnuvalar ve ödüller etrafında bir araya getiren topluluk platformudur. Günlük görevlerini tamamlayarak JTORE Points kazanabilir, mağazadaki seçkin içerikleri keşfedebilir ve rekabetçi etkinliklerde toplulukla birlikte yer alabilirsin.
+            </p>
+            <p className="mt-4 text-base leading-8 text-zinc-400">
+              Amacımız, oyuncuların emeklerini değerli hissettiği, güvenli ve aktif bir CS2 ekosistemi oluşturmak. JTORE&apos;da her görev yeni bir hedef, her turnuva yeni bir mücadele ve her puan oyuna bağlılığının bir karşılığıdır.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
         <div className="relative overflow-hidden rounded-3xl border border-orange-500/20 bg-gradient-to-br from-orange-500/[0.12] via-zinc-950 to-zinc-950 p-8 sm:p-14">
