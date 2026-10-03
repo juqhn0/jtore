@@ -10,6 +10,7 @@ const navLinks = [
   { to: "/store", label: "Store" },
   { to: "/tasks", label: "Tasks" },
   { to: "/plugins", label: "Plugins" },
+  { to: "/updates", label: "CS2 Updates" },
 ]
 
 export default function Navbar() {
