@@ -188,6 +188,13 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
+        <div className="mb-8 flex items-end justify-between gap-4"><div><p className="text-sm font-semibold uppercase tracking-[0.24em] text-orange-400">JTORE Editorial</p><h2 className="mt-2 font-display text-3xl font-black">CS2 Güncellemeleri</h2><p className="mt-2 text-zinc-400">Patch, meta ve esports gündeminden seçtiklerimiz.</p></div><Link to="/updates" className="hidden items-center gap-1 text-sm font-semibold text-orange-400 sm:flex">Tümünü gör <ArrowRight className="h-4 w-4" /></Link></div>
+        <div className="grid gap-4 md:grid-cols-3">{[{ tag: "Patch Notes", title: "CS2 meta raporu: son değişiklikler" }, { tag: "Silah Dengesi", title: "Tüfek ekonomisi yeniden şekilleniyor" }, { tag: "Harita Havuzu", title: "Aktif harita havuzunda takım stratejileri" }].map((post) => <Link key={post.title} to="/updates" className="group rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition hover:-translate-y-1 hover:border-orange-500/50 hover:bg-orange-500/[0.06]"><span className="text-xs font-bold uppercase tracking-wider text-orange-400">{post.tag}</span><h3 className="mt-3 font-display text-xl font-bold group-hover:text-orange-300">{post.title}</h3><span className="mt-5 inline-flex items-center gap-1 text-sm text-zinc-500 group-hover:text-orange-400">Makaleyi oku <ArrowRight className="h-4 w-4" /></span></Link>)}</div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6"><div className="rounded-3xl border border-orange-500/20 bg-orange-500/[0.05] p-6"><p className="text-center text-xs font-bold uppercase tracking-[0.24em] text-zinc-500">Arkadaşlarımız ve destekçilerimiz</p><div className="mt-5 flex flex-wrap items-center justify-center gap-4"><a href="https://youtube.com/@jerardokin" target="_blank" rel="noreferrer" className="supporter-card"><img src="https://unavatar.io/youtube/jerardokin" alt="Jerardo Kin YouTube" /><span>Jerardo Kin</span></a><a href="https://youtube.com/@v1xsan-s2g" target="_blank" rel="noreferrer" className="supporter-card"><img src="https://unavatar.io/youtube/v1xsan-s2g" alt="V1xSan CS2 YouTube" /><span>V1xSan CS2</span></a><a href="https://youtube.com/@Juqhn" target="_blank" rel="noreferrer" className="supporter-card supporter-card-featured"><img src="https://unavatar.io/youtube/Juqhn" alt="Juqhn JTORE YouTube" /><span>Juqhn · JTORE</span></a></div></div></section>
+
       {/* ABOUT */}
       <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
         <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-8 sm:p-12">
