@@ -150,3 +150,8 @@
 .btn-secondary:hover { border-color: rgba(249,115,22,.45); background: rgba(249,115,22,.1); }
 .field-label { display: block; font-size: .875rem; color: #a1a1aa; }
 .jtore-3d-title { text-shadow: 1px 1px 0 #ea580c, 2px 2px 0 #c2410c, 3px 3px 0 #9a3412, 4px 4px 10px rgba(234, 88, 12, .5); }
+.supporter-marquee { overflow: hidden; mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent); }
+.supporter-track { display: flex; width: max-content; animation: supporter-scroll 24s linear infinite; }
+.supporter-track:hover { animation-play-state: paused; }
+@keyframes supporter-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .supporter-track { animation: none; } }

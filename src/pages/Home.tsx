@@ -181,6 +181,13 @@ export default function Home() {
         <AdSlot variant="infeed" />
       </div>
 
+      <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
+        <div className="flex flex-col gap-6 rounded-3xl border border-orange-500/20 bg-orange-500/[0.06] p-8 sm:flex-row sm:items-center sm:justify-between">
+          <div><p className="text-sm font-semibold uppercase tracking-[0.24em] text-orange-400">JTORE Editorial</p><h2 className="mt-2 font-display text-3xl font-black">CS2 güncellemelerini kaçırma</h2><p className="mt-2 max-w-2xl text-zinc-400">Patch notları, silah dengeleri, harita havuzu ve esports analizlerini CS2 Updates sayfamızda takip et.</p></div>
+          <Link to="/updates" className="btn-primary shrink-0">CS2 Updates&apos;i Gör <ArrowRight className="h-4 w-4" /></Link>
+        </div>
+      </section>
+
       {/* ABOUT */}
       <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
         <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-8 sm:p-12">
