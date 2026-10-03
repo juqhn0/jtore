@@ -13,6 +13,7 @@ export default function Footer() {
             J<span className="text-orange-500">TORE</span>
           </span>
         </Link>
+        <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-zinc-400"><Link className="transition hover:text-orange-400" to="/updates">CS2 Updates</Link><Link className="transition hover:text-orange-400" to="/about">Hakkımızda</Link><Link className="transition hover:text-orange-400" to="/faq">FAQ</Link></div>
         <p className="text-center text-sm text-zinc-500">
 {new Date().getFullYear()} JTORE. Built with passion for the CS2 community. Not affiliated with Valve.
         </p>
