@@ -13,6 +13,7 @@ const navLinks = [
   { to: "/updates", label: "CS2 Updates" },
   { to: "/guides", label: "Guides & News" },
   { to: "/match-hub", label: "Match Hub" },
+  { to: "/leaderboard", label: "Leaderboard" },
 ]
 
 export default function Navbar() {

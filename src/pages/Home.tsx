@@ -15,6 +15,7 @@ import { useStore } from "../store/useStore"
 import { firestore } from "../lib/firebase"
 import { AdSlot } from "../components/PlatformChrome"
 import { AnimatedNumber, motion } from "../components/MotionPrimitives"
+import LiveMatches from "../components/LiveMatches"
 
 const MotionLink = motion.create(Link)
 
@@ -141,6 +142,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6"><LiveMatches compact /></section>
 
       {/* FEATURES */}
       <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
