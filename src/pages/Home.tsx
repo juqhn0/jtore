@@ -13,7 +13,6 @@ import {
 } from "lucide-react"
 import { useStore } from "../store/useStore"
 import { firestore } from "../lib/firebase"
-import { AdSlot } from "../components/PlatformChrome"
 import { AnimatedNumber, motion } from "../components/MotionPrimitives"
 import LiveMatches from "../components/LiveMatches"
 
@@ -180,9 +179,7 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="mx-auto max-w-5xl px-4 py-2 sm:px-6">
-        <AdSlot variant="infeed" />
-      </div>
+
 
       <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
         <div className="flex flex-col gap-6 rounded-3xl border border-orange-500/20 bg-orange-500/[0.06] p-8 sm:flex-row sm:items-center sm:justify-between">

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react"
 import { useLocation } from "react-router-dom"
 
-const CONTENT_ROUTES = ["/", "/updates", "/guides"]
+const CONTENT_ROUTES = ["/blog"]
 
 export default function AdSenseBanner() {
   const location = useLocation()
