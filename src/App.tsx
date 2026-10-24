@@ -12,6 +12,8 @@ import AdminPanel from "./pages/AdminPanel"
 import NotFound from "./pages/NotFound"
 import About from "./pages/About"
 import FAQ from "./pages/FAQ"
+import Contact from "./pages/Contact"
+import Partnerships from "./pages/Partnerships"
 import Guides from "./pages/Guides"
 
-export default function App() { return <><Toaster position="top-right" toastOptions={{ style: { background: "#18181b", color: "#fff", border: "1px solid #3f3f46" } }} /><Routes><Route element={<Layout />}><Route path="/" element={<Home />} /><Route path="/store" element={<Store />} /><Route path="/tasks" element={<Tasks />} /><Route path="/plugins" element={<Plugins />} /><Route path="/guides" element={<Guides />} /><Route path="/about" element={<About />} /><Route path="/faq" element={<FAQ />} /><Route path="/profile" element={<Profile />} /><Route path="/admin-hq" element={<AdminRoute><AdminPanel /></AdminRoute>} /><Route path="*" element={<NotFound />} /></Route><Route path="/auth" element={<Auth />} /></Routes></> }
+export default function App() { return <><Toaster position="top-right" toastOptions={{ style: { background: "#18181b", color: "#fff", border: "1px solid #3f3f46" } }} /><Routes><Route element={<Layout />}><Route path="/" element={<Home />} /><Route path="/store" element={<Store />} /><Route path="/tasks" element={<Tasks />} /><Route path="/plugins" element={<Plugins />} /><Route path="/guides" element={<Guides />} /><Route path="/about" element={<About />} /><Route path="/faq" element={<FAQ />} /><Route path="/contact" element={<Contact />} /><Route path="/partnerships" element={<Partnerships />} /><Route path="/profile" element={<Profile />} /><Route path="/admin-hq" element={<AdminRoute><AdminPanel /></AdminRoute>} /><Route path="*" element={<NotFound />} /></Route><Route path="/auth" element={<Auth />} /></Routes></> }
