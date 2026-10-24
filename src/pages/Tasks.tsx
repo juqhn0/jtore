@@ -4,6 +4,7 @@ import toast from "react-hot-toast"
 import { useStore } from "../store/useStore"
 import { CS2_QUIZ_POOL, getRandomUnansweredQuestion, type QuizQuestion } from "../data/cs2QuizPool"
 import { PageMotion, motion } from "../components/MotionPrimitives"
+import { claimDailyQuest } from "../lib/firebase"
 
 const ANSWERED_KEY = "jtore-answered-quiz-ids"
 
@@ -26,13 +27,15 @@ export default function Tasks() {
 
   const progress = useMemo(() => Math.min(100, Math.round((answeredIds.length / CS2_QUIZ_POOL.length) * 100)), [answeredIds.length])
 
-  const submitQuiz = () => {
+  const submitQuiz = async () => {
     if (!currentUser) return toast.error("Önce giriş yapmalısın")
     if (selected === null) return toast.error("Önce bir cevap seç")
     if (selected !== question.answerIndex) {
       setSubmitted(true)
       return toast.error("Yanlış cevap. Tekrar dene.")
     }
+    const claimed = await claimDailyQuest(currentUser.id)
+    if (!claimed) return toast.error("Bugünkü görev tamamlandı. 24 saat sonra tekrar dene.")
     const result = completeDailyTask(15)
     if (!result.ok) return toast.error(result.message)
     const nextIds = [...new Set([...answeredIds, question.id])]

@@ -4,7 +4,11 @@ import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
 import { useEffect } from "react"
 
 export function PageMotion({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, ease: "easeOut" }} className={className}>{children}</motion.div>
+  return <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.08 }} transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }} className={className}>{children}</motion.div>
+}
+
+export function Reveal({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
+  return <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.18 }} transition={{ duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] }} className={className}>{children}</motion.div>
 }
 
 export function AnimatedNumber({ value }: { value: number }) {

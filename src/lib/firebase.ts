@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app"
 import { getAuth } from "firebase/auth"
-import { getFirestore } from "firebase/firestore"
+import { doc, getFirestore, runTransaction, serverTimestamp, Timestamp } from "firebase/firestore"
 
 const firebaseConfig = {
   apiKey: "AIzaSyBjJKGHI9dtephq0VTt9mTQFEiqR2veSsQ",
@@ -16,4 +16,17 @@ export const app = initializeApp(firebaseConfig)
 export const firebaseAuth = getAuth(app)
 export const firestore = getFirestore(app)
 export const isFirebaseConfigured = true
+
+export async function claimDailyQuest(uid: string) {
+  const questRef = doc(firestore, "users", uid, "quests", "daily-quiz")
+  return runTransaction(firestore, async (transaction) => {
+    const snapshot = await transaction.get(questRef)
+    const lastCompletedAt = snapshot.data()?.completedAt
+    const now = Timestamp.now()
+    if (lastCompletedAt instanceof Timestamp && now.toMillis() - lastCompletedAt.toMillis() < 24 * 60 * 60 * 1000) return false
+    transaction.set(questRef, { completedAt: serverTimestamp(), taskId: "daily-quiz" }, { merge: true })
+    return true
+  })
+}
+
 export default app
