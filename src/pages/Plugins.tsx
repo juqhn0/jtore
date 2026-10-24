@@ -63,9 +63,8 @@ export default function Plugins() {
             key={p.title}
             className="group relative flex flex-col overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.05] to-transparent p-7 transition hover:border-orange-500/50"
           >
-            {/* Coming soon badge */}
             <span className="absolute right-5 top-5 rounded-full border border-orange-500/40 bg-orange-500/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-orange-400">
-              Yakında
+              Ürün planı
             </span>
 
             <span className="flex h-16 w-16 items-center justify-center rounded-2xl border border-orange-500/30 bg-orange-500/10 text-orange-500 transition group-hover:glow-orange">
@@ -91,14 +90,7 @@ export default function Plugins() {
               ))}
             </ul>
 
-            <button
-              type="button"
-              disabled
-              aria-disabled="true"
-              className="mt-7 flex h-12 cursor-not-allowed items-center justify-center rounded-xl border border-white/15 bg-white/[0.03] font-bold text-zinc-500 transition group-hover:border-orange-500 group-hover:text-orange-400 group-hover:glow-orange"
-            >
-              Çok Yakında
-            </button>
+            <div className="mt-7 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-center text-sm text-zinc-500">Bu araç için ürün planı hazırlanıyor.</div>
           </div>
         ))}
       </div>
