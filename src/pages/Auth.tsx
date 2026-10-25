@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { ArrowLeft, Crosshair, Eye, EyeOff, Loader2 } from "lucide-react"
 import toast from "react-hot-toast"
-import { createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from "firebase/auth"
+import { createUserWithEmailAndPassword, GoogleAuthProvider, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth"
 import { firebaseAuth } from "../lib/firebase"
 import { useStore } from "../store/useStore"
 import { motion } from "../components/MotionPrimitives"
@@ -53,6 +53,35 @@ export default function Auth() {
       toast.error(code === "auth/user-not-found" ? "Bu e-posta ile kayıtlı kullanıcı bulunamadı." : "Şifre sıfırlama bağlantısı gönderilemedi.")
     } finally {
       setResetBusy(false)
+    }
+  }
+
+  const handleGoogleAuth = async () => {
+    if (busy) return
+    setBusy(true)
+    try {
+      const provider = new GoogleAuthProvider()
+      provider.setCustomParameters({ prompt: "select_account" })
+      const result = await signInWithPopup(firebaseAuth, provider)
+      const user = login(result.user.email || "", "google", {
+        id: result.user.uid,
+        displayName: result.user.displayName || result.user.email?.split("@")[0] || "JTORE player",
+        avatar: result.user.photoURL,
+        photoURL: result.user.photoURL,
+      })
+      toast.success("Google ile giriş başarılı.")
+      navigate(user.role === "SUPER_ADMIN" ? "/admin-hq" : "/")
+    } catch (error) {
+      const code = error && typeof error === "object" && "code" in error ? String((error as { code?: string }).code) : ""
+      const messages: Record<string, string> = {
+        "auth/popup-closed-by-user": "Google giriş penceresi kapatıldı.",
+        "auth/popup-blocked": "Tarayıcı Google giriş penceresini engelledi.",
+        "auth/account-exists-with-different-credential": "Bu e-posta başka bir giriş yöntemiyle kayıtlı.",
+        "auth/operation-not-allowed": "Firebase Console'da Google sağlayıcısını etkinleştirin.",
+      }
+      toast.error(messages[code] || "Google ile giriş yapılamadı.")
+    } finally {
+      setBusy(false)
     }
   }
 
@@ -125,6 +154,8 @@ export default function Auth() {
             <label className="block text-sm text-zinc-300">Şifre<div className="relative mt-2"><input type={showPassword ? "text" : "password"} required value={password} onChange={(e) => setPassword(e.target.value)} className="h-11 w-full rounded-xl border border-white/10 bg-black/20 px-3 pr-11 text-white outline-none focus:border-orange-500" placeholder="En az 8 karakter" /><button type="button" onClick={() => setShowPassword((value) => !value)} className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400" aria-label="Show or hide password">{showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}</button></div></label>
             <motion.button whileTap={{ scale: 0.95 }} type="submit" disabled={busy} className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-orange-500 font-bold text-zinc-950 transition hover:bg-orange-400 disabled:cursor-not-allowed disabled:opacity-70">{busy && <Loader2 className="h-4 w-4 animate-spin" />}{mode === "login" ? "Giriş Yap" : "Kayıt Ol"}</motion.button>
           </form>
+          <div className="my-5 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-zinc-600"><span className="h-px flex-1 bg-white/10" />veya<span className="h-px flex-1 bg-white/10" /></div>
+          <button type="button" onClick={handleGoogleAuth} disabled={busy} className="flex h-12 w-full items-center justify-center gap-3 rounded-xl border border-white/15 bg-white/[0.04] font-semibold text-zinc-100 transition hover:border-orange-500/60 hover:bg-orange-500/10 disabled:cursor-not-allowed disabled:opacity-60"><span className="flex h-6 w-6 items-center justify-center rounded-full bg-white font-bold text-base text-[#4285F4]">G</span>{busy ? "Bağlanıyor..." : "Google ile giriş yap"}</button>
           {mode === "login" && <button type="button" onClick={() => setResetOpen(true)} className="mt-4 w-full text-center text-sm font-semibold text-orange-400 transition hover:text-orange-300 hover:underline">Şifremi Unuttum?</button>}
           {resetOpen && <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"><div className="w-full max-w-sm rounded-3xl border border-white/10 bg-zinc-900 p-6 shadow-2xl"><h2 className="font-display text-xl font-bold">Şifreyi Sıfırla</h2><p className="mt-2 text-sm text-zinc-400">Sıfırlama bağlantısı almak için e-posta adresinizi girin.</p><form onSubmit={handlePasswordReset} className="mt-5 space-y-3"><input autoFocus type="email" required value={resetEmail} onChange={(event) => setResetEmail(event.target.value)} className="h-11 w-full rounded-xl border border-white/10 bg-black/20 px-3 text-white outline-none focus:border-orange-500" placeholder="ornek@mail.com" /><div className="flex gap-3"><button type="button" onClick={() => setResetOpen(false)} className="btn-secondary flex-1">Vazgeç</button><button type="submit" disabled={resetBusy} className="btn-primary flex-1">{resetBusy ? "Gönderiliyor..." : "Bağlantı Gönder"}</button></div></form></div></div>}
         </div>
