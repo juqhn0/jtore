@@ -10,10 +10,14 @@ import {
   Sparkles,
   Trophy,
   Zap,
+  BookOpen,
 } from "lucide-react"
 import { useStore } from "../store/useStore"
 import { firestore } from "../lib/firebase"
 import { AnimatedNumber, motion } from "../components/MotionPrimitives"
+import AdSenseBanner from "../components/AdSenseBanner"
+import { editorialArticleExpansions, editorialChecklists } from "../data/editorialArticleExpansions"
+import { editorialArticles } from "../data/editorialArticles"
 
 const MotionLink = motion.create(Link)
 
@@ -37,7 +41,6 @@ const features = [
     to: "/plugins",
   },
 ]
-
 
 export default function Home() {
   const currentUser = useStore((s) => s.currentUser)
@@ -176,7 +179,29 @@ export default function Home() {
         </div>
       </section>
 
-
+      <section className="mx-auto max-w-5xl px-4 py-16 sm:px-6" aria-labelledby="editorial-heading">
+        <header className="mb-9 max-w-3xl">
+          <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-[.24em] text-orange-400"><BookOpen className="h-4 w-4" /> JTORE Editorial</p>
+          <h2 id="editorial-heading" className="mt-3 font-display text-3xl font-black tracking-tight text-white sm:text-4xl">CS2 strategy, explained with care</h2>
+          <p className="mt-4 leading-7 text-zinc-400">Explore practical Counter-Strike 2 articles written around repeatable skills: stable performance, useful utility, confident aim, clear economy calls, and effective teamwork. Each guide focuses on fundamentals you can practice and review in your own games.</p>
+          <Link to="/guides" className="mt-5 inline-flex items-center gap-2 font-semibold text-orange-400 transition hover:text-orange-300">Open the complete CS2 Guides library <ArrowRight className="h-4 w-4" /></Link>
+        </header>
+        <div className="space-y-7">
+          {editorialArticles.map((article, index) => {
+            const Icon = article.icon
+            return <div key={article.title}>
+              <article className="rounded-3xl border border-white/10 bg-white/[.03] p-6 sm:p-8">
+                <header className="flex items-start gap-4"><span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-orange-500/25 bg-orange-500/10 text-orange-400"><Icon aria-hidden="true" className="h-5 w-5" /></span><div><span className="text-xs font-bold uppercase tracking-[.2em] text-orange-400">{article.category} · {String(index + 1).padStart(2, "0")}</span><h3 className="mt-2 font-display text-2xl font-bold text-white">{article.title}</h3></div></header>
+                <p className="mt-5 leading-8 text-zinc-300">{article.excerpt}</p>
+                <section className="mt-6"><h4 className="font-display text-lg font-bold text-zinc-100">A repeatable approach</h4><p className="mt-2 leading-8 text-zinc-400">{article.content}</p></section>
+                {editorialArticleExpansions[index].map((paragraph, paragraphIndex) => <section key={paragraphIndex} className="mt-6"><h4 className="font-display text-lg font-bold text-zinc-100">{["Preparation and context", "Applying the idea in a match", "Review and improvement"][paragraphIndex]}</h4><p className="mt-2 leading-8 text-zinc-400">{paragraph}</p></section>)}
+                <section className="mt-6"><h4 className="font-display text-lg font-bold text-zinc-100">Quick checklist</h4><ul className="mt-3 grid gap-2 sm:grid-cols-2">{editorialChecklists[index].map((item) => <li key={item} className="flex gap-2 text-sm leading-6 text-zinc-400"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-orange-500" />{item}</li>)}</ul></section>
+              </article>
+              {(index === 1 || index === 4 || index === 6) && <AdSenseBanner />}
+            </div>
+          })}
+        </div>
+      </section>
 
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6"><div className="rounded-3xl border border-orange-500/20 bg-orange-500/[0.05] p-6"><p className="text-center text-xs font-bold uppercase tracking-[0.24em] text-zinc-500">Arkadaşlarımız ve destekçilerimiz</p><div className="supporter-marquee mt-5"><div className="supporter-track"><div className="supporter-group"><a href="https://youtube.com/@jerardokin" target="_blank" rel="noreferrer" className="supporter-card"><img src="https://unavatar.io/youtube/jerardokin" alt="Jerardo Kin YouTube" /><span>Jerardo Kin</span></a><a href="https://youtube.com/@v1xsan-s2g" target="_blank" rel="noreferrer" className="supporter-card"><img src="https://unavatar.io/youtube/v1xsan-s2g" alt="V1xSan CS2 YouTube" /><span>V1xSan CS2</span></a><a href="https://youtube.com/@Juqhn" target="_blank" rel="noreferrer" className="supporter-card supporter-card-featured"><img src="https://unavatar.io/youtube/Juqhn" alt="Juqhn JTORE YouTube" /><span>Juqhn · JTORE</span></a></div><div className="supporter-group" aria-hidden="true"><a className="supporter-card"><img src="https://unavatar.io/youtube/jerardokin" alt="" /><span>Jerardo Kin</span></a><a className="supporter-card"><img src="https://unavatar.io/youtube/v1xsan-s2g" alt="" /><span>V1xSan CS2</span></a><a className="supporter-card supporter-card-featured"><img src="https://unavatar.io/youtube/Juqhn" alt="" /><span>Juqhn · JTORE</span></a></div></div></div></div></section>
 

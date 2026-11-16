@@ -1,23 +1,24 @@
 import { useEffect, useRef } from "react"
 import { useLocation } from "react-router-dom"
 
-const CONTENT_ROUTES = ["/guides"]
+const CONTENT_ROUTES = ["/", "/guides"]
 
 export default function AdSenseBanner() {
   const location = useLocation()
   const adRef = useRef<HTMLModElement>(null)
-  const allowed = CONTENT_ROUTES.some((route) => route === "/" ? location.pathname === "/" : location.pathname.startsWith(route))
+  const allowed = CONTENT_ROUTES.includes(location.pathname)
 
   useEffect(() => {
     if (!allowed) return
     const existing = document.querySelector('script[data-jtore-adsense="true"]')
+    let insertedScript: HTMLScriptElement | null = null
     if (!existing) {
-      const script = document.createElement("script")
-      script.async = true
-      script.crossOrigin = "anonymous"
-      script.dataset.jtoreAdsense = "true"
-      script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4997339220786278"
-      document.head.appendChild(script)
+      insertedScript = document.createElement("script")
+      insertedScript.async = true
+      insertedScript.crossOrigin = "anonymous"
+      insertedScript.dataset.jtoreAdsense = "true"
+      insertedScript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4997339220786278"
+      document.head.appendChild(insertedScript)
     }
     const timer = window.setTimeout(() => {
       if (adRef.current && !adRef.current.dataset.loaded) {
@@ -27,7 +28,10 @@ export default function AdSenseBanner() {
         } catch { /* AdSense may be unavailable in preview or blocked by an extension. */ }
       }
     }, 250)
-    return () => window.clearTimeout(timer)
+    return () => {
+      window.clearTimeout(timer)
+      insertedScript?.remove()
+    }
   }, [allowed, location.pathname])
 
   if (!allowed) return null
